@@ -23,12 +23,22 @@ class window.Hand extends Backbone.Collection
     score + if card.get 'revealed' then card.get 'value' else 0
   , 0
 
+  dealerMinScore: -> @reduce (score, card) ->
+    score + card.get 'value'
+  , 0
+
   # gives you a score - if you have an ace, show the alternate score 
   scores: ->
     # The scores are an array of potential scores.
     # Usually, that array contains one element. That is the only score.
     # when there is an ace, it offers you two scores - the original score, and score + 10.
     [@minScore(), @minScore() + 10 * @hasAce()]
+
+  # dealerSecretScores: ->
+  #   # The scores are an array of potential scores.
+  #   # Usually, that array contains one element. That is the only score.
+  #   # when there is an ace, it offers you two scores - the original score, and score + 10.
+  #   [@dealerMinScore(), @dealerMinScore() + 10 * @hasAce()]  
   #stand
   #should implement a stand component 
   isBust: ->
@@ -38,4 +48,25 @@ class window.Hand extends Backbone.Collection
       false
 
   busted: false
+
+  stand: -> 
+    @standing = true
+    @trigger 'stand'
+
+  standing: false
+
+  dealerPlay: ->
+    if @at(0).get('revealed') is false
+      @at(0).flip()
+
+    if @scores()[0] < 17
+      @hit()
+      @dealerPlay()
+    else if @scores()[1] is 21
+      @stand
+    else 
+      @stand
+
+    #if score is less than 17, hit
+    #if score is >= 17, then stand
 
