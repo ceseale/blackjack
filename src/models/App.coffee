@@ -4,8 +4,7 @@ class window.App extends Backbone.Model
   initialize: ->
     #sets up the deck
     #sets the same deck for both
-    @set 'deck', deck = new Deck()
-    @set 'playerHand', deck.dealPlayer()
-    @set 'dealerHand', deck.dealDealer()
-    
 
+    @set 'game', game = new Game()
+
+    #will need to capture the hand comparison mechanism
