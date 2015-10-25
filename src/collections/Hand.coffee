@@ -11,6 +11,9 @@ class window.Hand extends Backbone.Collection
     if @isBust()
       @busted = true
       @trigger 'bust', @
+      if @standing is false
+        console.log 2
+        @stand()
     @last()
   
   #test for the ace card - that's it
@@ -49,7 +52,7 @@ class window.Hand extends Backbone.Collection
 
   busted: false
 
-  stand: -> 
+  stand: ->
     @standing = true
     @trigger 'stand'
 
@@ -63,10 +66,8 @@ class window.Hand extends Backbone.Collection
       @hit()
       @dealerPlay()
     else if @scores()[1] is 21
-      @stand
-    else 
-      @stand
-
+      @stand()
+    else if not @standing
+      @stand()
     #if score is less than 17, hit
     #if score is >= 17, then stand
-

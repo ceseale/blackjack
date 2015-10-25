@@ -6,5 +6,7 @@ class window.App extends Backbone.Model
     #sets the same deck for both
 
     @set 'game', game = new Game()
-
+    (@get 'game').on 'gameover', ->
+      console.log 'in app'
+      @set 'game', game = new Game()
     #will need to capture the hand comparison mechanism

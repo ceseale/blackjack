@@ -11,8 +11,25 @@ class window.AppView extends Backbone.View
 
   initialize: ->
     @game = @model.get('game')
+    @game.on 'playerAlert' , =>
+      alert 'Player 1 Wins'
+    @game.on 'dealerAlert' , =>
+      alert 'Dealer Wins'
+    @game.on 'pushAlert' , =>
+      alert 'Push!'
+    @game.on 'pushAlertBust' , =>
+      alert 'Push! Dealer and Player busted'
+    @game.on 'pBlackjack' , =>
+      alert 'player has blackjack!'
+    @game.on 'dBlackjack' , =>
+      alert 'dealer has blackjack!'
+    @game.on 'bothBlackjack' , =>
+      alert 'dealer and player has blackjack'
     @render()
-
+    @game.on 'gameover', ->
+      @game = @model.get('game')
+      @render()
+    ,@  
   render: ->
     @$el.children().detach()
     @$el.html @template()
